@@ -7,11 +7,26 @@ $(document).ready(function(){
     $("#top-left","#top-right","#bottom-left","#bottom-right").css("padding-bottom",padding)
     console.log(padding);
     
-    function displayTimeTL(){
+    function displayTime(tZone,screenpos,timeType){
         var amPm = "am";
+        var tZoneName;
         var currentTime = new Date();
         var hours = currentTime.getHours();
-        if (hours > 12) {
+        
+        tZoneName = "Eastern"
+        switch( tZone ){
+            case "pst":
+                hours = hours-3;
+                break;
+            case "cen":
+                hours = hours-1;
+                break;
+            case "mnt":
+                hours = hours-2;
+                break;
+        }
+        
+        if (hours >= 12 && timeType = "24H") {
             hours = hours - 12;
             amPm  = "pm"
         }
@@ -20,7 +35,13 @@ $(document).ready(function(){
         var seconds = currentTime.getSeconds();
         if (seconds < 10) seconds = "0"+seconds;
         
-        $("#top-left").html("Eastern Std Time<br>"+hours+":"+minutes+":"+seconds+amPm);
+        if (timeType = "12H") {
+             $(screenpos).html("Eastern Std Time<br>"+hours+":"+minutes+":"+seconds+amPm);  
+        }
+        else{
+             $(screenpos).html("Eastern Std Time<br>"+hours+":"+minutes+":"+seconds);  
+        }
+
     }
     function displayTimeTR(){
         var amPm = "am";
